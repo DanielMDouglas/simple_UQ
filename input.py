@@ -10,11 +10,13 @@ def generate_input(N = 10,
                    **kwargs):
     trueVal = points.rvs(N)
     noiseScale = noise.rvs(N)
+    noiseVar = np.power(noiseScale, 2)
     noisyVal = st.norm(loc = trueVal, scale = noiseScale).rvs()
 
     label = labelFunc(trueVal)
     return (torch.Tensor(noisyVal).to(device),
-            torch.Tensor(noiseScale).to(device),
+            # torch.Tensor(noiseScale).to(device),
+            torch.Tensor(noiseVar).to(device),
             torch.Tensor([label]).to(device))
 
 def generate_input_batch(bs = 16,
